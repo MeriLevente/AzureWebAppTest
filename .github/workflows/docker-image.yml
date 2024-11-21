@@ -15,9 +15,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Set env
+      run: echo "IMAGE_TAG=$(date +%s)" >> $GITHUB_ENV
+
+    - uses: actions/checkout@v4
     - name: Build the Docker image
       run: |
-        echo "IMAGE_TAG=$(date +%s)" >> $GITHUB_ENV
         docker build . --file Dockerfile --tag ghcr.io/MeriLevente/webtest-azure:$IMAGE_TAG
         docker login ghcr.io -u MeriLevente -p ${{secrets.GHCR_TOKEN}}
         docker push ghcr.io/MeriLevente/webtest-azure:$IMAGE_TAG
