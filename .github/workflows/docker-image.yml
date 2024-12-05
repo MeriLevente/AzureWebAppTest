@@ -26,3 +26,12 @@ jobs:
         docker push ghcr.io/merilevente/webtest-azure:$IMAGE_TAG
         docker push ghcr.io/merilevente/webtest-azure:latest
         
+    - name: Deploy to Azure Web App
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'teszt-13a'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_3dd9f7cb3f894b5fa56f3832c06b2d4e }}
+        images: 'ghcr.io/merilevente/webtest-azure:${{ env.IMAGE_TAG }}'
+        
